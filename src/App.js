@@ -1,8 +1,10 @@
 import './App.css';
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
+import WalletAddress from './components/WalletAddress';
 
 // Here's the new import for the file we just added
 import Menu from './components/Menu';
+import { Link } from 'react-router-dom';
 
 function App() {
   const { status, connect, disconnect, availableConnectTypes } = useWallet();
@@ -37,15 +39,41 @@ function App() {
       );
     }
   };
+  // return (
+  //   <main className="App">
+  //     <header>
+  //       <Link to="/" className="home-link">
+  //         <div className="header-titles">
+  //           <h1>⚔ Goblin War ⚔️</h1>
+  //           <p>Only you can save us from Goblin town</p>
+  //         </div>
+  //       </Link>
+  //       <WalletAddress />
+  //     </header>
 
+  //     <div className="score-board-container">
+  //       <h3>Scoreboard</h3>
+  //       {/* If loading, show loading, else render */}
+  //       {loading ? (
+  //         <div>Loading...</div>
+  //       ) : (
+  //         renderScores(scores)
+  //       )}
+        
+  //       <div></div>
+  //     </div>
+  //   </main>
+  // );
   return (
     <main className="App">
       <header>
-        <div className="header-titles">
-          <h1>⚔ Goblin War ⚔</h1>
-          <p>Only you can save us from Goblin town</p>
-        </div>
-
+        <Link to="/" className="home-link">
+          <div className="header-titles">
+            <h1>⚔ Goblin War ⚔</h1>
+            <p>Only you can save us from Goblin town</p>
+          </div>
+          <WalletAddress />
+        </Link>
       </header>
 
       {/* If not connected, show the goblin GIF! */}
