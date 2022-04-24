@@ -1,10 +1,15 @@
 import './App.css';
-//Bring in the required hooks and possible wallet states
 import { useWallet, WalletStatus } from "@terra-money/wallet-provider";
 
+// Here's the new import for the file we just added
+import Menu from './components/Menu';
+
 function App() {
-  // Current wallet status, connect & disconnect functions, available connections
   const { status, connect, disconnect, availableConnectTypes } = useWallet();
+
+  console.log("Wallet status is ", status);
+  console.log("Available connection types:", availableConnectTypes);
+
   const renderConnectButton = () => {
     if (status === WalletStatus.WALLET_NOT_CONNECTED) {
       return (
@@ -20,12 +25,19 @@ function App() {
         </div>
       );
     }
+    else if (status === WalletStatus.WALLET_CONNECTED) {
+      return (
+        <button
+          type="button"
+          onClick={() => disconnect()}
+          className="cta-button connect-wallet-button"
+        >
+          Disconnect
+        </button>
+      );
+    }
   };
-  // Let's take a look at what the starting states are!
-  console.log("Wallet status is ", status);
-  console.log("Available connection types:", availableConnectTypes);
 
-  // Nothing changes here :D
   return (
     <main className="App">
       <header>
@@ -36,14 +48,24 @@ function App() {
 
       </header>
 
-      <div>
-        <img
-          src="https://media.giphy.com/media/B19AYwNXoXtcs/giphy.gif"
-          alt="Goblin gif"
-        />
-      </div>
+      {/* If not connected, show the goblin GIF! */}
+      {status === WalletStatus.WALLET_NOT_CONNECTED && (
+        <div>
+          <img
+            src="https://media.giphy.com/media/B19AYwNXoXtcs/giphy.gif"
+            alt="Goblin gif"
+          />
+        </div>
+      )}
+
+      {/* Show the menu after connection */}
+      {status === WalletStatus.WALLET_CONNECTED && (
+          <div className="game-menu-container">
+            <Menu />
+          </div>
+        )}
         
-      {/* Add it here */}
+
       {renderConnectButton()}
     </main>
   );
